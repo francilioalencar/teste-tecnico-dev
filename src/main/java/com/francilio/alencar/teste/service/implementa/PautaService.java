@@ -1,6 +1,5 @@
 package com.francilio.alencar.teste.service.implementa;
 
-import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -67,7 +66,8 @@ public class PautaService implements PautaInterfaceService {
     @Override
     public PautaComVotosDto buscaPautaComVotos(Long id) {
 
-        Pauta pauta = this.pautaRepository.findById(id).get();
+        Pauta pauta = this.pautaRepository.findById(id).orElseThrow(NoSuchElementException::new);
+
         List<Object[]> votos = this.pautaRepository.obterPautaComVotos(pauta.getId());
 
         PautaComVotosDto pautaComVotosDto = PautaComVotosDto.builder()

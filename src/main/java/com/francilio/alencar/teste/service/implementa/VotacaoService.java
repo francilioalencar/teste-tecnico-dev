@@ -1,6 +1,7 @@
 package com.francilio.alencar.teste.service.implementa;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,6 @@ import com.francilio.alencar.teste.repository.SessaoVotacaoRepository;
 import com.francilio.alencar.teste.repository.VotacaoRepository;
 import com.francilio.alencar.teste.service.VotacaoInterfaceService;
 import com.francilio.alencar.teste.service.VotacaoInterfaceServiceValidacao;
-
-import io.swagger.v3.oas.annotations.servers.Server;
 
 @Service
 public class VotacaoService implements VotacaoInterfaceService {
@@ -42,8 +41,8 @@ public class VotacaoService implements VotacaoInterfaceService {
             valida.validaVotacao(votacaoDto);
         });
 
-        Pauta pauta = this.pautaRepository.findById(votacaoDto.pautaId()).get();
-        SessaoVotacao sessaoVotacao = this.sessaoVotacaoRepository.findById(votacaoDto.sessaoVotacaoId()).get();
+        Pauta pauta = this.pautaRepository.findById(votacaoDto.pautaId()).orElseThrow( NoSuchElementException::new );
+        SessaoVotacao sessaoVotacao = this.sessaoVotacaoRepository.findById(votacaoDto.sessaoVotacaoId()).orElseThrow( NoSuchElementException::new );
 
 
 

@@ -2,13 +2,13 @@ package com.francilio.alencar.teste.service.implementa;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.francilio.alencar.teste.dto.PautaDto;
 import com.francilio.alencar.teste.dto.SessaoVotacaoApuracaoDto;
-import com.francilio.alencar.teste.dto.SessaoVotacaoApuracaoDtoPatch;
 import com.francilio.alencar.teste.dto.SessaoVotacaoDto;
 import com.francilio.alencar.teste.model.Pauta;
 import com.francilio.alencar.teste.model.SessaoVotacao;
@@ -43,7 +43,7 @@ public class SessaoVotacaoService implements SessaoVotacaoInterfaceService {
         consisteSeHaSessaoAberta(sessaoDto.pautaId());
 
 
-        Pauta pauta = this.pautaRepository.findById(sessaoDto.pautaId()).get();
+        Pauta pauta = this.pautaRepository.findById(sessaoDto.pautaId()).orElseThrow( NoSuchElementException::new );
 
         SessaoVotacao sessaoVotacao = SessaoVotacao.builder()
             .data(sessaoDto.data())
@@ -81,7 +81,7 @@ public class SessaoVotacaoService implements SessaoVotacaoInterfaceService {
     @Override
     public SessaoVotacaoApuracaoDto obterApuracaoSesaoVotacao(Long sessaoId) {
 
-        SessaoVotacao sessaoVotacao = this.sessaoVotacaoRepository.findById(sessaoId).get();
+        SessaoVotacao sessaoVotacao = this.sessaoVotacaoRepository.findById(sessaoId).orElseThrow( NoSuchElementException::new );
         
 
         PautaDto pautaDto = PautaDto.builder()
