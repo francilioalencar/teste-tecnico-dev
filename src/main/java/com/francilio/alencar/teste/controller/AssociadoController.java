@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.francilio.alencar.teste.dto.AssociadoDto;
 import com.francilio.alencar.teste.service.AssociadoInterfaceService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/associado")
 
@@ -33,7 +35,7 @@ public class AssociadoController {
 
 
     @PostMapping
-    ResponseEntity cadastraAssociado(@RequestBody AssociadoDto associadoDto){
+    ResponseEntity cadastraAssociado(@Valid @RequestBody AssociadoDto associadoDto){
 
         return ResponseEntity.ok().body( this.associadoInterfaceService.cadastraAssociado(associadoDto) );
 
