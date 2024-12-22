@@ -34,3 +34,5 @@ build/
 
 *.Identifier
 data-v8-teste-dev
+*.yml.old
+application-dev.properties

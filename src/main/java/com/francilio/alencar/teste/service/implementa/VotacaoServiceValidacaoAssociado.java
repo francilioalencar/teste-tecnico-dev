@@ -1,6 +1,8 @@
 package com.francilio.alencar.teste.service.implementa;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.francilio.alencar.teste.dto.VotacaoDto;
 import com.francilio.alencar.teste.repository.AssociadoRepository;
@@ -8,11 +10,12 @@ import com.francilio.alencar.teste.service.VotacaoInterfaceServiceValidacao;
 
 @Service
 
-public class VotacaoServiceValidacaoAssociado implements VotacaoInterfaceServiceValidacao{
+public class VotacaoServiceValidacaoAssociado implements VotacaoInterfaceServiceValidacao {
 
     private final AssociadoRepository associadoRepository;
 
-    public VotacaoServiceValidacaoAssociado(AssociadoRepository associadoRepository){
+
+    public VotacaoServiceValidacaoAssociado(AssociadoRepository associadoRepository) {
         this.associadoRepository = associadoRepository;
     }
 
@@ -21,10 +24,9 @@ public class VotacaoServiceValidacaoAssociado implements VotacaoInterfaceService
         validaExistenciaAssociado(votacaoDto.associadoId());
     }
 
+    void validaExistenciaAssociado(Long associadoId) {
 
-    void validaExistenciaAssociado(Long associadoId){
-
-        if(!this.associadoRepository.existsById(associadoId)){
+        if (!this.associadoRepository.existsById(associadoId)) {
             throw new IllegalArgumentException("Associado não foi localizado");
         }
 
@@ -32,5 +34,4 @@ public class VotacaoServiceValidacaoAssociado implements VotacaoInterfaceService
 
 
 
-    
 }

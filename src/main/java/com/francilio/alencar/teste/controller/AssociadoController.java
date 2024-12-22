@@ -3,6 +3,7 @@ package com.francilio.alencar.teste.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import com.francilio.alencar.teste.dto.AssociadoDto;
 import com.francilio.alencar.teste.service.AssociadoInterfaceService;
@@ -15,8 +16,8 @@ import jakarta.validation.Valid;
 public class AssociadoController {
 
 
-
     private final AssociadoInterfaceService associadoInterfaceService;
+
 
     public AssociadoController(AssociadoInterfaceService associadoInterfaceService){
         this.associadoInterfaceService = associadoInterfaceService;
@@ -40,10 +41,6 @@ public class AssociadoController {
         return ResponseEntity.ok().body( this.associadoInterfaceService.cadastraAssociado(associadoDto) );
 
     }
-
-
-
-
 
 
 
