@@ -27,14 +27,21 @@ public class SessaoVotacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    LocalDate data;
-    LocalDateTime inicioSessao;
-    LocalDateTime fimSessao;
+    private Long id;
+    private LocalDate data;
+    private LocalDateTime inicioSessao;
+    private LocalDateTime fimSessao;
+
+    private LocalDateTime dataApuracao;
+    private Long totalVotos;
+    private Long votosSim;
+    private Long votosNao;
+
+
 
     @OneToOne
     @JoinColumn(name = "pauta_id")
-     @JsonManagedReference
+    @JsonManagedReference
     private Pauta pauta;
 
 }

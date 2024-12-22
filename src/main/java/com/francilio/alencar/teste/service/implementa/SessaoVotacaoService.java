@@ -1,15 +1,20 @@
 package com.francilio.alencar.teste.service.implementa;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.francilio.alencar.teste.dto.PautaDto;
+import com.francilio.alencar.teste.dto.SessaoVotacaoApuracaoDto;
+import com.francilio.alencar.teste.dto.SessaoVotacaoApuracaoDtoPatch;
 import com.francilio.alencar.teste.dto.SessaoVotacaoDto;
 import com.francilio.alencar.teste.model.Pauta;
 import com.francilio.alencar.teste.model.SessaoVotacao;
 import com.francilio.alencar.teste.repository.PautaRepository;
 import com.francilio.alencar.teste.repository.SessaoVotacaoRepository;
+import com.francilio.alencar.teste.repository.VotacaoRepository;
 import com.francilio.alencar.teste.service.SessaoVotacaoInterfaceService;
 
 @Service
@@ -19,13 +24,16 @@ public class SessaoVotacaoService implements SessaoVotacaoInterfaceService {
 
     private final PautaRepository   pautaRepository;
 
+    private final VotacaoRepository votacaoRepository;
+
     @Value("${requisito.tempo.sessao.votacao}")
     private String tempoSessaoVotacao;
 
 
-    public SessaoVotacaoService(SessaoVotacaoRepository sessaoVotacaoRepository, PautaRepository   pautaRepository) {
+    public SessaoVotacaoService(SessaoVotacaoRepository sessaoVotacaoRepository, PautaRepository   pautaRepository, VotacaoRepository votacaoRepository) {
         this.sessaoVotacaoRepository = sessaoVotacaoRepository;
         this.pautaRepository    =   pautaRepository;
+        this.votacaoRepository  =   votacaoRepository;
 
     }
 
@@ -68,5 +76,45 @@ public class SessaoVotacaoService implements SessaoVotacaoInterfaceService {
         }
 
 
+    }
+
+    @Override
+    public SessaoVotacaoApuracaoDto obterApuracaoSesaoVotacao(Long sessaoId) {
+
+        SessaoVotacao sessaoVotacao = this.sessaoVotacaoRepository.findById(sessaoId).get();
+        
+
+        PautaDto pautaDto = PautaDto.builder()
+            .id(sessaoVotacao.getPauta().getId())
+            .titulo(sessaoVotacao.getPauta().getTitulo())
+            .descricao(sessaoVotacao.getPauta().getDescricao())
+            .data(sessaoVotacao.getPauta().getData())
+            .build();
+
+
+
+        List<Object[]> votacao = this.votacaoRepository.obterTotalVotacao(sessaoId);
+
+        sessaoVotacao.setDataApuracao(LocalDateTime.now());
+        sessaoVotacao.setTotalVotos( ((Number) votacao.get(0)[0]).longValue() );
+        sessaoVotacao.setVotosSim( ((Number) votacao.get(0)[1]).longValue() );
+        sessaoVotacao.setVotosNao( ((Number) votacao.get(0)[2]).longValue() );
+
+
+        this.sessaoVotacaoRepository.save(sessaoVotacao);
+
+        SessaoVotacaoApuracaoDto sessaoVotacaoApuracaoDto = SessaoVotacaoApuracaoDto.builder()
+            .id(sessaoVotacao.getId())
+            .data(sessaoVotacao.getData())
+            .inicioSessao(sessaoVotacao.getInicioSessao())
+            .fimSessao(sessaoVotacao.getFimSessao())
+            .totalVotos(sessaoVotacao.getTotalVotos())
+            .votosSim(sessaoVotacao.getVotosSim())
+            .votosNao(sessaoVotacao.getVotosNao())
+            .dataApuracao(sessaoVotacao.getDataApuracao())
+            .pauta(pautaDto)
+        .build();
+
+        return sessaoVotacaoApuracaoDto;
     }
 }

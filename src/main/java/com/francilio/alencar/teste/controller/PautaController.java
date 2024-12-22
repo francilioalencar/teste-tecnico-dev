@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.francilio.alencar.teste.dto.PautaComVotosDto;
 import com.francilio.alencar.teste.dto.PautaDto;
 import com.francilio.alencar.teste.service.PautaInterfaceService;
 
@@ -27,6 +28,11 @@ public class PautaController {
     @GetMapping("/{id}")
     ResponseEntity<PautaDto> buscaPautaPorId(@PathVariable Long id){
         return ResponseEntity.ok( this.pautaInterfaceService.buscaPautaPorId(id) );
+    }
+
+    @GetMapping("/votos/{id}")
+    ResponseEntity<PautaComVotosDto> buscaPautaComVotosPorId(@PathVariable Long id){
+        return ResponseEntity.ok( this.pautaInterfaceService.buscaPautaComVotos(id) );
     }
 
     @PostMapping

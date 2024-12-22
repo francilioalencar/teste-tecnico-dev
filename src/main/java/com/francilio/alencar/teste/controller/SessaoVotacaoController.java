@@ -1,11 +1,14 @@
 package com.francilio.alencar.teste.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.francilio.alencar.teste.dto.SessaoVotacaoApuracaoDto;
 import com.francilio.alencar.teste.dto.SessaoVotacaoDto;
 import com.francilio.alencar.teste.service.SessaoVotacaoInterfaceService;
 
@@ -25,6 +28,13 @@ public class SessaoVotacaoController {
     ResponseEntity<SessaoVotacaoDto> cadastraSessaoVotacao(@RequestBody SessaoVotacaoDto sessaoVotacaoDto){
 
         return ResponseEntity.ok( this.sessaoVotacaoInterfaceService.gravarSessaoVotacao(sessaoVotacaoDto) );
+
+    }
+
+    @PatchMapping("/{id}")
+    ResponseEntity<SessaoVotacaoApuracaoDto> obterResultadoVotacao(@PathVariable Long id){
+
+        return ResponseEntity.ok(this.sessaoVotacaoInterfaceService.obterApuracaoSesaoVotacao(id));
 
     }
 
