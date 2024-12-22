@@ -1,0 +1,6 @@
+CREATE TABLE associado (
+    id INT(12) AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(250),
+    cpf VARCHAR(11)
+
+);
