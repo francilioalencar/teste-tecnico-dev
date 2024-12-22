@@ -1,19 +1,19 @@
 package com.francilio.alencar.teste.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Getter
 @Setter
@@ -22,21 +22,23 @@ import lombok.Setter;
 @Builder
 @Entity
 
-public class Pauta {
-    
+public class Votacao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String titulo;
-
-    private String descricao;
-
-    private LocalDate data;
-
-    private String status;
-
-    @OneToOne(mappedBy = "pauta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "sessao_votacao_id")
     private SessaoVotacao sessaoVotacao;
 
+    @ManyToOne
+    @JoinColumn(name = "pauta_id")
+    private Pauta pauta;
+
+    private Long associadoId;
+
+    private String voto;
+
+    private LocalDateTime dataVoto;
 }
