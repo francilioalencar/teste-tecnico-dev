@@ -79,14 +79,24 @@ Acessar diretorio raiz do projeto, onde encontra-se o arquivo docker-compose.yml
 ```
 
 ```
-
 services:
     mysql: Servindo com base de dados mysql:8.0.36
     api-1 / api-2: Servindo com aplicação, persistindo dados em mysql
     nginx: Servicno com balanceamento de carga entre os servidores da aplicação api-1 e 
 
 ```
+```
+Arquivos de configuração/variáveis:
+    docker-compose: docker-compose.yml
+    docker: Dockerfile
+    aplicação: env/app.env
+    mysql: env/mysql.env
+    nginx: nginx/nginx.conf
 
+     em env/app.env estão as para definir tempo da sessão de votação e url de callback
+    APP_REGRA_TEMPO_SESSAO=1
+    APP_REGRA_DOMINIO_CALLBACK=http://localhost:8181
+```
 #### swagger
     http://endereco-da-aplicacao/swagger-ui/index.html#/
 
