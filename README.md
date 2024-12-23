@@ -90,6 +90,12 @@ services:
 #### swagger
     http://endereco-da-aplicacao/swagger-ui/index.html#/
 
+### Sequencia dos cadastros
+ 1. Cadastrar associado : POST
+ 2. Cadastrar pauta : POST
+ 3. Iniciar sessao : POST
+ 4. Registrar voto : POST
+
 ### EndPoints
 ```
   POST /votacao (Registra votacao)
