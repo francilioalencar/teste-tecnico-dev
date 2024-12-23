@@ -1,12 +1,15 @@
 package com.francilio.alencar.teste.service.implementa;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.francilio.alencar.teste.dto.PautaComVotosDto;
 import com.francilio.alencar.teste.dto.PautaDto;
+import com.francilio.alencar.teste.dto.PautaSelecao;
 import com.francilio.alencar.teste.model.Pauta;
 import com.francilio.alencar.teste.repository.PautaRepository;
 import com.francilio.alencar.teste.service.PautaInterfaceService;
@@ -15,11 +18,16 @@ import com.francilio.alencar.teste.service.PautaInterfaceService;
 
 public class PautaService implements PautaInterfaceService {
 
+
+    @Value("${app_regra_dominio_callback}")
+    private String urlCallBack;
+
     private final PautaRepository pautaRepository;
 
     public PautaService(PautaRepository pautaRepository) {
         this.pautaRepository = pautaRepository;
     }
+
 
     @Override
     public PautaDto buscaPautaPorId(Long id) {
@@ -82,6 +90,24 @@ public class PautaService implements PautaInterfaceService {
 
         return pautaComVotosDto;
 
+    }
+
+    @Override
+    public List<PautaSelecao> listaTodasAsPautas() {
+
+
+        List<PautaSelecao> pautaSelecao = new ArrayList<PautaSelecao>();
+        List<Pauta> pauta =  this.pautaRepository.findAll();//.stream().map(PautaSelecao:: new).toList();
+        
+        pauta.forEach(item->{
+            pautaSelecao.add(
+                PautaSelecao.builder()
+                    .texto(item.getTitulo())
+                    .url( new StringBuilder(urlCallBack).append("/votacao").toString())
+                    .build());
+        });
+
+        return pautaSelecao;
     }
 
 }

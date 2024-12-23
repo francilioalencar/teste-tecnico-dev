@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class ControllerAdviceApi {
@@ -25,6 +26,12 @@ public class ControllerAdviceApi {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException exceptio) {
         String mensagem  = "Não foram encotrados registro para os parametros informados";
+        return new ResponseEntity<>(mensagem, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<?> handleNoResourceFoundException(NoResourceFoundException exceptio) {
+        String mensagem  = "Destino não existe, verifique o EndPont ou o tipo de requisição!";
         return new ResponseEntity<>(mensagem, HttpStatus.NOT_FOUND);
     }
     
