@@ -17,8 +17,7 @@ services:
       retries: 10
   
   api-1: &api
-    build:
-      context: .
+    image: francilioalencar/teste-tecnico-dev:v1.0
     env_file: ./env/app.env
     restart: unless-stopped
     depends_on:
